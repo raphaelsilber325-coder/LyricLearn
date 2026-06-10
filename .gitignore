@@ -1,0 +1,13 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local tooling / preview config (machine-specific absolute paths)
+.claude/
+.vscode/
+
+# Temp test artifacts
+__pipeline_test.*
+*.tmp
+*.log

@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LyricLearn — לומדים אנגלית דרך שירים</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- GSAP (global, loaded before module) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Three.js importmap -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+<!-- GRAIN OVERLAY -->
+<svg style="display:none">
+  <filter id="grain-filter">
+    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="4" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feBlend in="SourceGraphic" mode="overlay"/>
+  </filter>
+</svg>
+
+<!-- PAGE LOADER -->
+<div id="pageLoader">
+  <div class="loader-inner">
+    <div class="loader-logo">♪</div>
+    <div class="loader-name">LyricLearn</div>
+    <div class="loader-track"><div class="loader-fill" id="loaderFill"></div></div>
+    <div class="loader-pct" id="loaderPct">0%</div>
+  </div>
+</div>
+
+<!-- CUSTOM CURSOR -->
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- ── NAV ── -->
+<nav id="mainNav">
+  <div class="nav-wrap">
+    <a href="#" class="nav-logo">♪ LyricLearn</a>
+    <div class="nav-center">
+      <a href="#method" class="nav-link">השיטה</a>
+      <a href="#lyrics" class="nav-link">שיעור לדוגמה</a>
+      <a href="#pricing" class="nav-link">מחירים</a>
+    </div>
+    <a href="#signup" class="nav-cta magnetic">התחל חינם →</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <canvas id="heroCanvas"></canvas>
+
+  <!-- grid + noise -->
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <div class="hero-body">
+    <div class="hero-badge">
+      <span class="badge-pulse"></span>
+      שיטה חדשה ללימוד אנגלית
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hl" data-line="0">לומדים</span>
+      <span class="hl accent-grad" data-line="1">אנגלית</span>
+      <span class="hl" data-line="2">דרך שירים</span>
+    </h1>
+
+    <p class="hero-sub">
+      לא עוד דקדוק משעמם. לומדים מילים, מבטא ואנגלית אמיתית<br/>
+      דרך השירים הכי פופולריים — עם מורה מנוסה.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#signup" class="btn-glow magnetic">
+        <span>שיעור ניסיון חינם</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M12 7L8 3M12 7L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      <a href="#lyrics" class="btn-outline magnetic">ראה שיעור לדוגמה</a>
+    </div>
+
+    <div class="hero-proof">
+      <div class="proof-faces">
+        <span>👩</span><span>👨</span><span>👩‍🦱</span><span>👦</span>
+      </div>
+      <span class="proof-text">+200 תלמידים כבר מדברים אנגלית</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="scroll-bar"></div>
+    <span>גלול</span>
+  </div>
+</section>
+
+<!-- ── MARQUEE BAND ── -->
+<div class="marquee-band" aria-hidden="true">
+  <div class="marquee-inner" id="marqueeInner">
+    <span>♪ IMAGINE</span><i>·</i>
+    <span>♪ FIX YOU</span><i>·</i>
+    <span>♪ SOMEWHERE ONLY WE KNOW</span><i>·</i>
+    <span>♪ HOTEL CALIFORNIA</span><i>·</i>
+    <span>♪ SOMEONE LIKE YOU</span><i>·</i>
+    <span>♪ HERE COMES THE SUN</span><i>·</i>
+    <span>♪ DON'T STOP BELIEVIN'</span><i>·</i>
+    <span>♪ WHAT A WONDERFUL WORLD</span><i>·</i>
+    <!-- duplicate for seamless loop -->
+    <span>♪ IMAGINE</span><i>·</i>
+    <span>♪ FIX YOU</span><i>·</i>
+    <span>♪ SOMEWHERE ONLY WE KNOW</span><i>·</i>
+    <span>♪ HOTEL CALIFORNIA</span><i>·</i>
+    <span>♪ SOMEONE LIKE YOU</span><i>·</i>
+    <span>♪ HERE COMES THE SUN</span><i>·</i>
+    <span>♪ DON'T STOP BELIEVIN'</span><i>·</i>
+    <span>♪ WHAT A WONDERFUL WORLD</span><i>·</i>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     METHOD
+══════════════════════════════════════════════ -->
+<section class="method" id="method">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">השיטה שלנו</div>
+      <h2 class="sec-title">
+        <span class="tr">למה שירים</span>
+        <span class="tr accent-grad">עובדים?</span>
+      </h2>
+      <p class="sec-desc">המוח זוכר מה שמשויך לרגש — ואין שום דבר שמשלב שפה ורגש יותר טוב משיר.</p>
+    </div>
+
+    <div class="steps-grid">
+      <div class="step-card reveal-card">
+        <div class="step-icon-wrap"><span class="step-icon">🎧</span><div class="step-glow"></div></div>
+        <div class="step-num">01</div>
+        <h3>מאזינים</h3>
+        <p>מתחילים בהנאה לפני הלמידה. השיר נכנס לתת-מודע.</p>
+      </div>
+      <div class="step-card reveal-card">
+        <div class="step-icon-wrap"><span class="step-icon">📖</span><div class="step-glow"></div></div>
+        <div class="step-num">02</div>
+        <h3>מבינים</h3>
+        <p>פותחים כל שורה — כל מילה מוסברת בהקשר אמיתי.</p>
+      </div>
+      <div class="step-card reveal-card">
+        <div class="step-icon-wrap"><span class="step-icon">🧠</span><div class="step-glow"></div></div>
+        <div class="step-num">03</div>
+        <h3>לומדים דקדוק</h3>
+        <p>הדקדוק יוצא מהשיר — לא מהספר. קל יותר ונשאר יותר.</p>
+      </div>
+      <div class="step-card reveal-card">
+        <div class="step-icon-wrap"><span class="step-icon">🎤</span><div class="step-glow"></div></div>
+        <div class="step-num">04</div>
+        <h3>שרים ביחד</h3>
+        <p>שרים בקול — המבטא משתפר והמילים נשארות לתמיד.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     INTERACTIVE LYRICS
+══════════════════════════════════════════════ -->
+<section class="lyrics-sec" id="lyrics">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">שיעור לדוגמה</div>
+      <h2 class="sec-title">
+        <span class="tr">ריחפו מעל</span>
+        <span class="tr accent-grad">מילים מורכבות</span>
+      </h2>
+      <p class="sec-desc">כך נראה שיעור אמיתי — "Imagine" של John Lennon</p>
+    </div>
+
+    <div class="lyrics-card glass-card reveal-up">
+      <!-- Song header -->
+      <div class="lyric-header">
+        <div class="lyric-disc">🎵</div>
+        <div class="lyric-meta">
+          <div class="lyric-song-name">Imagine</div>
+          <div class="lyric-artist">John Lennon &bull; 1971</div>
+        </div>
+        <span class="lvl-tag lvl-begin">מתחילים</span>
+      </div>
+
+      <!-- Listen-along player -->
+      <div class="lyric-player">
+        <div class="lp-label">
+          <span class="lp-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          האזן תוך כדי קריאה — השיר מתחיל מהשורות שכאן 👇
+        </div>
+        <div class="lp-frame">
+          <div id="ytPlayer"></div>
+        </div>
+      </div>
+
+      <!-- Lyrics body (LTR) -->
+      <div class="lyric-body" dir="ltr">
+        <div class="lyric-line sync-line" id="syncLine">
+          <div class="w-wrap" data-word="Imagine" data-he="לדמיין" data-gram="Verb — Imperative" data-ex="Imagine yourself there.">
+            <span class="lw lw-complex">Imagine</span>
+            <div class="w-tip glass-tip">
+              <div class="tip-en">imagine</div>
+              <div class="tip-he">לדמיין</div>
+              <div class="tip-gram">פועל ציווי</div>
+              <div class="tip-ex">"Imagine yourself there."</div>
+            </div>
+          </div>
+          <span class="lw"> all the </span>
+          <div class="w-wrap" data-word="people" data-he="אנשים" data-gram="Noun — Plural" data-ex="People around the world.">
+            <span class="lw lw-complex">people</span>
+            <div class="w-tip glass-tip">
+              <div class="tip-en">people</div>
+              <div class="tip-he">אנשים</div>
+              <div class="tip-gram">שם עצם, רבים</div>
+              <div class="tip-ex">"People around the world."</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lyric-line">
+          <div class="w-wrap" data-word="Living" data-he="חיים" data-gram="Present Continuous" data-ex="She is living in Paris now.">
+            <span class="lw lw-complex">Living</span>
+            <div class="w-tip glass-tip">
+              <div class="tip-en">living</div>
+              <div class="tip-he">חיים</div>
+              <div class="tip-gram">הווה מתמשך</div>
+              <div class="tip-ex">"She is living in Paris."</div>
+            </div>
+          </div>
+          <span class="lw"> for today...</span>
+        </div>
+
+        <div class="lyric-line">
+          <span class="lw">Imagine all the people</span>
+        </div>
+
+        <div class="lyric-line">
+          <div class="w-wrap" data-word="Sharing" data-he="משתפים" data-gram="Present Continuous" data-ex="Sharing is caring.">
+            <span class="lw lw-complex">Sharing</span>
+            <div class="w-tip glass-tip">
+              <div class="tip-en">sharing</div>
+              <div class="tip-he">לשתף / משתפים</div>
+              <div class="tip-gram">הווה מתמשך</div>
+              <div class="tip-ex">"Sharing is caring."</div>
+            </div>
+          </div>
+          <span class="lw"> all the </span>
+          <div class="w-wrap" data-word="world" data-he="עולם" data-gram="Noun — Singular" data-ex="The whole world is watching.">
+            <span class="lw lw-complex">world</span>
+            <div class="w-tip glass-tip">
+              <div class="tip-en">world</div>
+              <div class="tip-he">עולם</div>
+              <div class="tip-gram">שם עצם</div>
+              <div class="tip-ex">"The whole world is watching."</div>
+            </div>
+          </div>
+          <span class="lw">...</span>
+        </div>
+      </div>
+
+      <!-- Learned -->
+      <div class="lyric-footer">
+        <span class="footer-label">📚 למדת:</span>
+        <span class="learned-chip">Present Continuous</span>
+        <span class="learned-chip">ציווי באנגלית</span>
+        <span class="learned-chip">מילות שלום ואחדות</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SONGS
+══════════════════════════════════════════════ -->
+<section class="songs-sec" id="songs">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">הרפרטואר</div>
+      <h2 class="sec-title">
+        <span class="tr">שירים</span>
+        <span class="tr accent-grad">שלומדים</span>
+      </h2>
+    </div>
+
+    <div class="songs-grid">
+      <div class="song-card glass-card reveal-card">
+        <div class="sc-emoji">🕊️</div>
+        <div class="sc-name">Imagine</div>
+        <div class="sc-artist">John Lennon</div>
+        <span class="sc-lvl lvl-begin">מתחילים</span>
+        <div class="sc-topics">Present Continuous · ציווי</div>
+      </div>
+      <div class="song-card glass-card reveal-card">
+        <div class="sc-emoji">💫</div>
+        <div class="sc-name">Fix You</div>
+        <div class="sc-artist">Coldplay</div>
+        <span class="sc-lvl lvl-inter">בינוני</span>
+        <div class="sc-topics">Future Simple · רגשות</div>
+      </div>
+      <div class="song-card glass-card reveal-card">
+        <div class="sc-emoji">☀️</div>
+        <div class="sc-name">Here Comes the Sun</div>
+        <div class="sc-artist">The Beatles</div>
+        <span class="sc-lvl lvl-begin">מתחילים</span>
+        <div class="sc-topics">עונות · Past Tense</div>
+      </div>
+      <div class="song-card glass-card reveal-card">
+        <div class="sc-emoji">❤️</div>
+        <div class="sc-name">Someone Like You</div>
+        <div class="sc-artist">Adele</div>
+        <span class="sc-lvl lvl-inter">בינוני</span>
+        <div class="sc-topics">Past Simple · ביטויים</div>
+      </div>
+      <div class="song-card glass-card reveal-card">
+        <div class="sc-emoji">🌊</div>
+        <div class="sc-name">Somewhere Only We Know</div>
+        <div class="sc-artist">Keane</div>
+        <span class="sc-lvl lvl-begin">מתחילים</span>
+        <div class="sc-topics">שאלות · זיכרונות</div>
+      </div>
+      <div class="song-card glass-card reveal-card">
+        <div class="sc-emoji">🎸</div>
+        <div class="sc-name">Hotel California</div>
+        <div class="sc-artist">Eagles</div>
+        <span class="sc-lvl lvl-adv">מתקדמים</span>
+        <div class="sc-topics">Idioms · Metaphors</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PRICING
+══════════════════════════════════════════════ -->
+<section class="pricing-sec" id="pricing">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-tag">מחירים</div>
+      <h2 class="sec-title">
+        <span class="tr">בחר את</span>
+        <span class="tr accent-grad">המסלול שלך</span>
+      </h2>
+      <p class="sec-desc">מתחילים בחינם — ממשיכים כשאתה מוכן</p>
+    </div>
+
+    <div class="plans-grid">
+      <!-- Free trial -->
+      <div class="plan-card glass-card reveal-card">
+        <div class="plan-type">ניסיון</div>
+        <div class="plan-price-row">
+          <span class="plan-price">חינם</span>
+        </div>
+        <p class="plan-tagline">שיעור זום ללא תשלום</p>
+        <ul class="plan-feats">
+          <li><span class="f-check">✓</span> שיעור זום מלא (45 דקות)</li>
+          <li><span class="f-check">✓</span> שיר לבחירה</li>
+          <li><span class="f-check">✓</span> חומרי לימוד</li>
+          <li><span class="f-check">✓</span> ללא התחייבות</li>
+        </ul>
+        <a href="#signup" class="plan-btn plan-btn-ghost magnetic">התחל בחינם</a>
+      </div>
+
+      <!-- Monthly — featured -->
+      <div class="plan-card plan-hot glass-card reveal-card">
+        <div class="hot-badge">🔥 הכי פופולרי</div>
+        <div class="plan-type">מנוי חודשי</div>
+        <div class="plan-price-row">
+          <span class="plan-price">₪199</span>
+          <span class="plan-per">/ חודש</span>
+        </div>
+        <p class="plan-tagline">עד שאתה מדבר אנגלית שוטפת</p>
+        <ul class="plan-feats">
+          <li><span class="f-check">✓</span> 4 שיעורי זום בחודש</li>
+          <li><span class="f-check">✓</span> גישה לכל הקורסים המוקלטים</li>
+          <li><span class="f-check">✓</span> כל חומרי הלימוד</li>
+          <li><span class="f-check">✓</span> קבוצת ווצאפ</li>
+          <li><span class="f-check">✓</span> ביטול בכל עת</li>
+        </ul>
+        <a href="#signup" class="plan-btn plan-btn-glow magnetic">הצטרף עכשיו</a>
+      </div>
+
+      <!-- Recorded course -->
+      <div class="plan-card glass-card reveal-card">
+        <div class="plan-type">קורס מוקלט</div>
+        <div class="plan-price-row">
+          <span class="plan-price">₪299</span>
+          <span class="plan-per">חד פעמי</span>
+        </div>
+        <p class="plan-tagline">לומדים בקצב שלך</p>
+        <ul class="plan-feats">
+          <li><span class="f-check">✓</span> 20+ שיעורים מוקלטים</li>
+          <li><span class="f-check">✓</span> גישה לצמיתות</li>
+          <li><span class="f-check">✓</span> תרגולים ומבחנים</li>
+          <li><span class="f-check">✓</span> תעודת סיום</li>
+        </ul>
+        <a href="#signup" class="plan-btn plan-btn-ghost magnetic">קנה קורס</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TEACHER
+══════════════════════════════════════════════ -->
+<section class="teacher-sec">
+  <div class="container">
+    <div class="teacher-card glass-card reveal-up">
+      <div class="teacher-avatar">👨‍🏫</div>
+      <div class="teacher-body">
+        <div class="sec-tag">המורה שלך</div>
+        <h2 class="teacher-name">יובל</h2>
+        <p class="teacher-bio">מרצה לאנגלית במכינה האקדמית וגם בתואר, מתמחה בהוראה דרך מוזיקה. יובל מאמין שהדרך הטובה ביותר ללמוד שפה היא דרך רגש ותרבות — ואין שום דבר שמשלב את שניהם יותר טוב משיר טוב.</p>
+        <div class="teacher-chips">
+          <span class="t-chip">🎓 מרצה בתואר ובמכינה</span>
+          <span class="t-chip">🎵 אוהב מוזיקה</span>
+          <span class="t-chip">💬 שיטות הוראה חדשניות</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CTA / SIGNUP
+══════════════════════════════════════════════ -->
+<section class="cta-sec" id="signup">
+  <div class="container">
+    <div class="cta-box glass-card reveal-up">
+      <div class="cta-bg-word" aria-hidden="true">MUSIC</div>
+      <div class="sec-tag">מוכן להתחיל?</div>
+      <h2 class="cta-title">שיעור ניסיון<br/><span class="accent-grad">חינמי לגמרי</span></h2>
+      <p class="cta-sub">השאר פרטים ונחזור אליך לתיאום שיעור הניסיון</p>
+
+      <form id="signupForm" class="signup-form" onsubmit="handleSignup(event)">
+        <div class="form-row">
+          <input class="fi" type="text" placeholder="שם מלא" required />
+          <input class="fi" type="tel" placeholder="טלפון" required />
+          <input class="fi" type="email" placeholder="אימייל" required />
+        </div>
+        <button type="submit" class="btn-glow magnetic form-submit-btn">
+          <span>שלח — אני רוצה שיעור חינם</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M12 7L8 3M12 7L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </form>
+
+      <div class="signup-success" id="signupSuccess" style="display:none">
+        <div class="success-emoji">🎉</div>
+        <div class="success-msg">מעולה! נחזור אליך תוך 24 שעות לתיאום שיעור הניסיון</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container footer-row">
+    <div class="footer-brand">
+      <div class="footer-logo">♪ LyricLearn</div>
+      <p>לומדים אנגלית דרך שירים</p>
+    </div>
+    <p class="footer-copy">© 2026 LyricLearn. כל הזכויות שמורות.</p>
+  </div>
+</footer>
+
+<script type="module" src="app.js"></script>
+
+<!-- SAFETY NET: never trap the visitor on the loading screen, even if a CDN/module fails to load -->
+<script>
+  (function () {
+    function dismissLoader() {
+      var l = document.getElementById('pageLoader');
+      if (l) l.classList.add('out');
+    }
+    // If the JS module never ran (e.g. a CDN is down), gsap won't exist —
+    // force the loader away and reveal all content via the CSS fallback.
+    function rescueIfBroken() {
+      dismissLoader();
+      if (!window.gsap) document.documentElement.classList.add('no-anim');
+    }
+    window.addEventListener('load', function () { setTimeout(rescueIfBroken, 5000); });
+    setTimeout(rescueIfBroken, 9000); // absolute fallback
+  })();
+
+  function handleSignup(e) {
+    e.preventDefault();
+    document.getElementById('signupForm').style.display = 'none';
+    const s = document.getElementById('signupSuccess');
+    s.style.display = 'block';
+    if (window.gsap) gsap.from(s, { scale: 0.85, opacity: 0, duration: 0.6, ease: 'back.out(1.7)' });
+  }
+
+  /* ── Listen-along: YouTube player that starts at the phrase + pops the lyrics ── */
+  (function () {
+    var VIDEO_ID   = 'YkgkThdzX-8';   // "Imagine" — John Lennon
+    var START_TIME = 78;              // ▶ 1:18 (1 min 18 sec) — where "Imagine all the people" is sung.
+                                      //   To change: this is seconds, so mm:ss → minutes*60 + seconds.
+    var PHRASE_LEN = 4;               // seconds the phrase lasts → how long the words stay enlarged.
+
+    var syncLine = document.getElementById('syncLine');
+    if (!document.getElementById('ytPlayer')) return;
+    var player, poll;
+
+    // Feature 2 — enlarge "Imagine all the people".
+    function popOn() {
+      if (!syncLine || syncLine.classList.contains('singing')) return;
+      void syncLine.offsetWidth;            // reflow so the scale-up animation restarts cleanly
+      syncLine.classList.add('singing');
+    }
+    function popOff() { if (syncLine) syncLine.classList.remove('singing'); }
+
+    function startPolling() {
+      stopPolling();
+      poll = setInterval(function () {
+        if (!player || !player.getCurrentTime) return;
+        var t = player.getCurrentTime();
+        if (t >= START_TIME && t < START_TIME + PHRASE_LEN) popOn(); else popOff();
+      }, 120);
+    }
+    function stopPolling() { if (poll) { clearInterval(poll); poll = null; } }
+
+    // The IFrame API calls this global once it has finished loading.
+    window.onYouTubeIframeAPIReady = function () {
+      player = new YT.Player('ytPlayer', {
+        videoId: VIDEO_ID,
+        playerVars: { start: START_TIME, rel: 0, modestbranding: 1, playsinline: 1 },
+        events: {
+          onStateChange: function (e) {
+            if (e.data === YT.PlayerState.PLAYING) {
+              // Feature 1 — make sure we begin at the phrase, not the intro.
+              if (player.getCurrentTime() < START_TIME) player.seekTo(START_TIME, true);
+              startPolling();
+            } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+              stopPolling();
+              popOff();
+            }
+          }
+        }
+      });
+      window._lyricPlayer = player;   // debug handle (used to verify playback)
+    };
+
+    // Load the IFrame API once.
+    if (window.YT && window.YT.Player) {
+      window.onYouTubeIframeAPIReady();
+    } else if (!document.getElementById('yt-iframe-api')) {
+      var s = document.createElement('script');
+      s.id = 'yt-iframe-api';
+      s.src = 'https://www.youtube.com/iframe_api';
+      document.head.appendChild(s);
+    }
+  })();
+</script>
+</body>
+</html>
