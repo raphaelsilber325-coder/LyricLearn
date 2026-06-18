@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LyricLearn — לומדים אנגלית דרך שירים</title>
+  <meta name="description" content="לומדים אנגלית דרך שירים פופולריים עם מורה מנוסה. שיטה ייחודית שמשלבת מוזיקה, מילים ודקדוק בצורה שנשארת." />
+  <meta property="og:title" content="LyricLearn — לומדים אנגלית דרך שירים" />
+  <meta property="og:description" content="לא עוד דקדוק משעמם. לומדים אנגלית דרך Imagine, Blinding Lights ועוד — עם מורה מנוסה." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://raphaelsilber325-coder.github.io/LyricLearn/" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -212,6 +218,7 @@
         <div class="lp-frame">
           <div id="ytPlayer"></div>
         </div>
+        <button class="seek-btn" onclick="seekSong('ytPlayer',78)">↺ חזור להתחלת הקטע</button>
       </div>
 
       <!-- Lyrics body (LTR) -->
@@ -319,6 +326,33 @@
         <span class="learned-chip">ציווי באנגלית</span>
         <span class="learned-chip">מילות שלום ואחדות</span>
       </div>
+
+      <!-- Flashcard quiz — Imagine -->
+      <div class="flash-section" id="flash-imagine">
+        <div class="flash-title">🧠 בחן את עצמך</div>
+        <button class="flash-btn-start" onclick="startFlash('imagine')">התחל מבחן מילים ←</button>
+        <div class="flash-quiz" id="flash-quiz-imagine">
+          <div class="flash-progress-bar"><div class="flash-progress-fill" id="flash-fill-imagine"></div></div>
+          <div class="flash-card" id="flash-card-imagine">
+            <div class="flash-word-en" id="flash-en-imagine"></div>
+            <div class="flash-word-hint">ריחף עם העכבר או לחץ "גלה"</div>
+            <div class="flash-reveal" id="flash-reveal-imagine">
+              <div class="flash-word-he" id="flash-he-imagine"></div>
+              <div class="flash-word-gram" id="flash-gram-imagine"></div>
+            </div>
+          </div>
+          <div class="flash-actions">
+            <button class="flash-peek-btn" onclick="revealFlash('imagine')">👁 גלה תרגום</button>
+            <button class="flash-knew-btn" onclick="nextFlash('imagine',true)">✓ ידעתי</button>
+            <button class="flash-learning-btn" onclick="nextFlash('imagine',false)">✗ עוד לומד</button>
+          </div>
+          <div class="flash-result" id="flash-result-imagine" style="display:none">
+            <div class="flash-score" id="flash-score-imagine"></div>
+            <div class="flash-score-msg" id="flash-msg-imagine"></div>
+            <button class="flash-retry-btn" onclick="startFlash('imagine')">↺ נסה שוב</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ── BLINDING LIGHTS ── -->
@@ -342,18 +376,19 @@
         <div class="lp-frame">
           <div id="ytPlayerBL"></div>
         </div>
+        <button class="seek-btn" onclick="seekSong('ytPlayerBL',20)">↺ חזור להתחלת הקטע</button>
       </div>
 
       <!-- Lyrics body (LTR) -->
       <div class="lyric-body" dir="ltr">
         <div class="sec-tag-song">⚡ Blinding Lights — The Weeknd</div>
 
-        <!-- Line 1: I've been tryna call  t=59s -->
+        <!-- Line 1: I've been tryna call  t≈22s (verse 1 start) -->
         <div class="lyric-line-words">
-          <span class="lw pw bl-pw" data-t="59">I've</span>
-          <span class="lw pw bl-pw" data-t="59.4"> been</span>
+          <span class="lw pw bl-pw" data-t="22.0">I've</span>
+          <span class="lw pw bl-pw" data-t="22.35"> been</span>
           <div class="w-wrap" style="display:inline">
-            <span class="lw lw-complex pw bl-pw" data-t="59.8">tryna</span>
+            <span class="lw lw-complex pw bl-pw" data-t="22.65">tryna</span>
             <div class="w-tip glass-tip">
               <div class="tip-en">tryna</div>
               <div class="tip-he">מנסה (סלנג)</div>
@@ -361,14 +396,14 @@
               <div class="tip-ex">"I'm tryna sleep."</div>
             </div>
           </div>
-          <span class="lw pw bl-pw" data-t="60.3"> call</span>
+          <span class="lw pw bl-pw" data-t="23.1"> call</span>
         </div>
 
-        <!-- Line 2: I need your love  t=61.5s -->
+        <!-- Line 2: I need your love  t≈23.9s -->
         <div class="lyric-line-words">
-          <span class="lw pw bl-pw" data-t="61.5">I</span>
+          <span class="lw pw bl-pw" data-t="23.9">I</span>
           <div class="w-wrap" style="display:inline">
-            <span class="lw lw-complex pw bl-pw" data-t="61.9">need</span>
+            <span class="lw lw-complex pw bl-pw" data-t="24.2">need</span>
             <div class="w-tip glass-tip">
               <div class="tip-en">need</div>
               <div class="tip-he">צריך / זקוק</div>
@@ -376,9 +411,9 @@
               <div class="tip-ex">"I need more time."</div>
             </div>
           </div>
-          <span class="lw pw bl-pw" data-t="62.3"> your</span>
+          <span class="lw pw bl-pw" data-t="24.55"> your</span>
           <div class="w-wrap" style="display:inline">
-            <span class="lw lw-complex pw bl-pw" data-t="62.7">love</span>
+            <span class="lw lw-complex pw bl-pw" data-t="24.9">love</span>
             <div class="w-tip glass-tip">
               <div class="tip-en">love</div>
               <div class="tip-he">אהבה</div>
@@ -388,13 +423,13 @@
           </div>
         </div>
 
-        <!-- Line 3: I'm going through withdrawals  t=63.5s -->
+        <!-- Line 3: I'm going through withdrawals  t≈25.4s -->
         <div class="lyric-line-words">
-          <span class="lw pw bl-pw" data-t="63.5">I'm</span>
-          <span class="lw pw bl-pw" data-t="63.9"> going</span>
-          <span class="lw pw bl-pw" data-t="64.3"> through</span>
+          <span class="lw pw bl-pw" data-t="25.4">I'm</span>
+          <span class="lw pw bl-pw" data-t="25.75"> going</span>
+          <span class="lw pw bl-pw" data-t="26.05"> through</span>
           <div class="w-wrap" style="display:inline">
-            <span class="lw lw-complex pw bl-pw" data-t="64.7">withdrawals</span>
+            <span class="lw lw-complex pw bl-pw" data-t="26.4">withdrawals</span>
             <div class="w-tip glass-tip">
               <div class="tip-en">withdrawals</div>
               <div class="tip-he">גמילה / משיכה לאחור</div>
@@ -404,17 +439,17 @@
           </div>
         </div>
 
-        <!-- Line 4: You don't even have to do too much  t=66s -->
+        <!-- Line 4: You don't even have to do too much  t≈27s -->
         <div class="lyric-line-words">
-          <span class="lw pw bl-pw" data-t="66">You</span>
-          <span class="lw pw bl-pw" data-t="66.3"> don't</span>
-          <span class="lw pw bl-pw" data-t="66.7"> even</span>
-          <span class="lw pw bl-pw" data-t="67.1"> have</span>
-          <span class="lw pw bl-pw" data-t="67.5"> to</span>
-          <span class="lw pw bl-pw" data-t="67.8"> do</span>
-          <span class="lw pw bl-pw" data-t="68.1"> too</span>
+          <span class="lw pw bl-pw" data-t="27.0">You</span>
+          <span class="lw pw bl-pw" data-t="27.25"> don't</span>
+          <span class="lw pw bl-pw" data-t="27.55"> even</span>
+          <span class="lw pw bl-pw" data-t="27.85"> have</span>
+          <span class="lw pw bl-pw" data-t="28.1"> to</span>
+          <span class="lw pw bl-pw" data-t="28.3"> do</span>
+          <span class="lw pw bl-pw" data-t="28.5"> too</span>
           <div class="w-wrap" style="display:inline">
-            <span class="lw lw-complex pw bl-pw" data-t="68.5">much</span>
+            <span class="lw lw-complex pw bl-pw" data-t="28.75">much</span>
             <div class="w-tip glass-tip">
               <div class="tip-en">too much</div>
               <div class="tip-he">יותר מדי</div>
@@ -432,6 +467,33 @@
         <span class="learned-chip">סלנג אמריקאי</span>
         <span class="learned-chip">Present Continuous</span>
         <span class="learned-chip">ביטויי רגש</span>
+      </div>
+
+      <!-- Flashcard quiz — Blinding Lights -->
+      <div class="flash-section" id="flash-bl">
+        <div class="flash-title">🧠 בחן את עצמך</div>
+        <button class="flash-btn-start" onclick="startFlash('bl')">התחל מבחן מילים ←</button>
+        <div class="flash-quiz" id="flash-quiz-bl">
+          <div class="flash-progress-bar"><div class="flash-progress-fill" id="flash-fill-bl"></div></div>
+          <div class="flash-card" id="flash-card-bl">
+            <div class="flash-word-en" id="flash-en-bl"></div>
+            <div class="flash-word-hint">ריחף עם העכבר או לחץ "גלה"</div>
+            <div class="flash-reveal" id="flash-reveal-bl">
+              <div class="flash-word-he" id="flash-he-bl"></div>
+              <div class="flash-word-gram" id="flash-gram-bl"></div>
+            </div>
+          </div>
+          <div class="flash-actions">
+            <button class="flash-peek-btn" onclick="revealFlash('bl')">👁 גלה תרגום</button>
+            <button class="flash-knew-btn" onclick="nextFlash('bl',true)">✓ ידעתי</button>
+            <button class="flash-learning-btn" onclick="nextFlash('bl',false)">✗ עוד לומד</button>
+          </div>
+          <div class="flash-result" id="flash-result-bl" style="display:none">
+            <div class="flash-score" id="flash-score-bl"></div>
+            <div class="flash-score-msg" id="flash-msg-bl"></div>
+            <button class="flash-retry-btn" onclick="startFlash('bl')">↺ נסה שוב</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -658,71 +720,168 @@
     if (window.gsap) gsap.from(s, { scale: 0.85, opacity: 0, duration: 0.6, ease: 'back.out(1.7)' });
   }
 
-  /* ── Per-word lyric sync engine ── */
+  /* ════════════════════════════════════════
+     LYRIC SYNC + FLASHCARDS + PROGRESS
+  ════════════════════════════════════════ */
   (function () {
 
-    /* ── Word timing tables ── */
-    var IMAGINE_START = 78;
-    var BL_START      = 59;
+    /* ── Player registry (filled in onYouTubeIframeAPIReady) ── */
+    var _players = {};   /* divId → YT.Player instance */
 
-    /* Collect all .pw words for a given player (by class selector) */
+    /* ── seekSong — called by seek buttons ── */
+    window.seekSong = function (divId, t) {
+      var p = _players[divId];
+      if (p && p.seekTo) { p.seekTo(t, true); p.playVideo(); }
+    };
+
+    /* ─────────────────────────────────────
+       FLASHCARD ENGINE
+    ───────────────────────────────────── */
+    var FLASH_DATA = {
+      imagine: [
+        { en: 'Imagine',  he: 'לדמיין',        gram: 'פועל ציווי' },
+        { en: 'People',   he: 'אנשים',          gram: 'שם עצם, רבים' },
+        { en: 'Living',   he: 'חיים / גרים',    gram: 'הווה מתמשך' },
+        { en: 'Sharing',  he: 'משתפים',         gram: 'הווה מתמשך' },
+        { en: 'World',    he: 'עולם',            gram: 'שם עצם' },
+      ],
+      bl: [
+        { en: 'Tryna',        he: 'מנסה (סלנג)',   gram: "קיצור של 'trying to'" },
+        { en: 'Need',         he: 'צריך / זקוק',   gram: 'פועל' },
+        { en: 'Love',         he: 'אהבה',           gram: 'שם עצם / פועל' },
+        { en: 'Withdrawals',  he: 'גמילה',           gram: 'שם עצם — מצב נפשי' },
+        { en: 'Too much',     he: 'יותר מדי',       gram: 'תואר כמות' },
+      ],
+    };
+
+    var _flashState = {};   /* songId → { idx, knew, total } */
+
+    window.startFlash = function (songId) {
+      var quiz   = document.getElementById('flash-quiz-' + songId);
+      var result = document.getElementById('flash-result-' + songId);
+      quiz.classList.add('active');
+      result.style.display = 'none';
+      document.getElementById('flash-quiz-' + songId)
+        .querySelectorAll('.flash-actions button, .flash-word-hint')
+        .forEach(function (el) { el.style.display = ''; });
+
+      var cards = FLASH_DATA[songId].slice().sort(function () { return Math.random() - 0.5; });
+      _flashState[songId] = { cards: cards, idx: 0, knew: 0 };
+      showFlashCard(songId);
+    };
+
+    function showFlashCard(songId) {
+      var state = _flashState[songId];
+      if (!state) return;
+      var card  = state.cards[state.idx];
+      var total = state.cards.length;
+
+      document.getElementById('flash-en-' + songId).textContent    = card.en;
+      document.getElementById('flash-he-' + songId).textContent    = card.he;
+      document.getElementById('flash-gram-' + songId).textContent  = card.gram;
+      document.getElementById('flash-reveal-' + songId).classList.remove('shown');
+      document.getElementById('flash-fill-' + songId).style.width  =
+        (state.idx / total * 100) + '%';
+
+      /* show/hide action buttons */
+      var actions = document.getElementById('flash-quiz-' + songId)
+                            .querySelector('.flash-actions');
+      actions.style.display = '';
+      document.getElementById('flash-result-' + songId).style.display = 'none';
+    }
+
+    window.revealFlash = function (songId) {
+      document.getElementById('flash-reveal-' + songId).classList.add('shown');
+    };
+
+    window.nextFlash = function (songId, knew) {
+      var state = _flashState[songId];
+      if (!state) return;
+      if (knew) state.knew++;
+      state.idx++;
+      var total = state.cards.length;
+
+      if (state.idx >= total) {
+        /* Show result */
+        var pct = Math.round(state.knew / total * 100);
+        document.getElementById('flash-fill-' + songId).style.width = '100%';
+        document.getElementById('flash-quiz-' + songId)
+          .querySelector('.flash-actions').style.display = 'none';
+        document.getElementById('flash-quiz-' + songId)
+          .querySelector('.flash-word-hint') &&
+          (document.getElementById('flash-quiz-' + songId)
+            .querySelector('.flash-word-hint').style.display = 'none');
+
+        var result = document.getElementById('flash-result-' + songId);
+        document.getElementById('flash-score-' + songId).textContent =
+          state.knew + '/' + total;
+        document.getElementById('flash-msg-' + songId).textContent =
+          pct === 100 ? '🎉 מושלם! ידעת הכל!' :
+          pct >= 60   ? '👍 יפה מאוד! עוד קצת ותשלים!' :
+                        '💪 המשך לתרגל — זה מגיע!';
+        result.style.display = 'block';
+
+        /* Save progress to localStorage */
+        try {
+          var key  = 'll_progress_' + songId;
+          var best = parseInt(localStorage.getItem(key) || '0');
+          if (state.knew > best) localStorage.setItem(key, state.knew);
+        } catch (e) {}
+        return;
+      }
+      showFlashCard(songId);
+    };
+
+    /* ─────────────────────────────────────
+       PER-WORD SYNC ENGINE
+    ───────────────────────────────────── */
+    var IMAGINE_START = 78;
+    var BL_START      = 20;
+
     function collectWords(selector) {
-      var nodes = document.querySelectorAll(selector);
       var words = [];
-      nodes.forEach(function (el) {
+      document.querySelectorAll(selector).forEach(function (el) {
         var t = parseFloat(el.getAttribute('data-t'));
         if (!isNaN(t)) words.push({ el: el, t: t });
       });
-      words.sort(function (a, b) { return a.t - b.t; });
-      return words;
+      return words.sort(function (a, b) { return a.t - b.t; });
     }
 
-    /* Activate word at time t — highlight the matching word, clear prev */
-    function syncWords(words, currentTime) {
+    function syncWords(words, now) {
       var active = null;
       for (var i = words.length - 1; i >= 0; i--) {
-        if (currentTime >= words[i].t) { active = words[i]; break; }
+        if (now >= words[i].t) { active = words[i]; break; }
       }
       words.forEach(function (w) {
-        if (w === active && currentTime < w.t + 1.4) {
-          w.el.classList.add('word-active');
-        } else {
-          w.el.classList.remove('word-active');
-        }
+        var on = w === active && now < w.t + 1.2;
+        w.el.classList.toggle('word-active', on);
       });
     }
 
-    /* ── Build a player instance ── */
     function makePlayer(divId, videoId, startTime, wordSelector) {
       if (!document.getElementById(divId)) return null;
       var words = collectWords(wordSelector);
       var poll  = null;
 
-      function start(p) {
-        stop();
+      function startPoll(p) {
+        if (poll) clearInterval(poll);
         poll = setInterval(function () {
-          if (!p.getCurrentTime) return;
-          syncWords(words, p.getCurrentTime());
-        }, 100);
+          if (p.getCurrentTime) syncWords(words, p.getCurrentTime());
+        }, 90);
       }
-      function stop() { if (poll) { clearInterval(poll); poll = null; } }
-      function clearAll() { words.forEach(function (w) { w.el.classList.remove('word-active'); }); }
+      function stopPoll() {
+        if (poll) { clearInterval(poll); poll = null; }
+        words.forEach(function (w) { w.el.classList.remove('word-active'); });
+      }
 
-      return {
-        videoId: videoId,
-        divId: divId,
-        startTime: startTime,
-        onPlay: start,
-        onStop: function () { stop(); clearAll(); },
-      };
+      return { divId: divId, videoId: videoId, startTime: startTime,
+               onPlay: startPoll, onStop: stopPoll };
     }
 
     var configs = [
       makePlayer('ytPlayer',   'YkgkThdzX-8', IMAGINE_START, '.pw:not(.bl-pw)'),
       makePlayer('ytPlayerBL', '4NRXx6U8ABQ', BL_START,      '.bl-pw'),
     ];
-
-    var playersReady = 0;
 
     window.onYouTubeIframeAPIReady = function () {
       configs.forEach(function (cfg) {
@@ -736,16 +895,45 @@
                 if (e.data === YT.PlayerState.PLAYING) {
                   if (p.getCurrentTime() < cfg.startTime) p.seekTo(cfg.startTime, true);
                   cfg.onPlay(p);
-                } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+                } else if (e.data === YT.PlayerState.PAUSED ||
+                           e.data === YT.PlayerState.ENDED) {
                   cfg.onStop();
                 }
               }
             }
           });
+          _players[cfg.divId] = p;
         })(cfg);
       });
     };
 
+    /* ── Mobile tooltip: tap to open / close ── */
+    document.addEventListener('DOMContentLoaded', function () {
+      var overlay = document.createElement('div');
+      overlay.className = 'w-tip-overlay';
+      document.body.appendChild(overlay);
+
+      document.querySelectorAll('.w-wrap').forEach(function (wrap) {
+        wrap.addEventListener('click', function (e) {
+          var wasOpen = wrap.classList.contains('tip-open');
+          document.querySelectorAll('.w-wrap.tip-open')
+            .forEach(function (w) { w.classList.remove('tip-open'); });
+          overlay.classList.remove('show');
+          if (!wasOpen) {
+            wrap.classList.add('tip-open');
+            overlay.classList.add('show');
+          }
+          e.stopPropagation();
+        });
+      });
+      overlay.addEventListener('click', function () {
+        document.querySelectorAll('.w-wrap.tip-open')
+          .forEach(function (w) { w.classList.remove('tip-open'); });
+        overlay.classList.remove('show');
+      });
+    });
+
+    /* ── Load YouTube IFrame API ── */
     if (window.YT && window.YT.Player) {
       window.onYouTubeIframeAPIReady();
     } else if (!document.getElementById('yt-iframe-api')) {
